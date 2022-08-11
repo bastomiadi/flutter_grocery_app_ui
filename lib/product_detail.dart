@@ -22,7 +22,7 @@ class _ProductDetailState extends State<ProductDetail> {
   }
 
   void removeCount(){
-    if(count != 0){
+    if(count > 1){
       count = count - 1;
       setState(() {
 

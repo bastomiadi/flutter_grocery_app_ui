@@ -2,10 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_grocery_app/data.dart';
 import 'package:flutter_grocery_app/product_detail.dart';
 
-class ItemWidget extends StatelessWidget {
+class ItemWidget extends StatefulWidget {
 
   final Product product;
   const ItemWidget({Key? key, required this.product}) : super(key: key);
+
+  @override
+  State<ItemWidget> createState() => _ItemWidgetState();
+}
+
+class _ItemWidgetState extends State<ItemWidget> {
+  int count = 1;
+
+  void addCount(){
+    count = count + 1;
+    setState(() {
+
+    });
+  }
+
+  void removeCount(){
+    if(count > 1){
+      count = count - 1;
+      setState(() {
+
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +36,7 @@ class ItemWidget extends StatelessWidget {
       onTap: () {
         Navigator.push(context, MaterialPageRoute(
             builder: (context) {
-          return ProductDetail(product: product);
+          return ProductDetail(product: widget.product);
         }));
       },
       child: Card(
@@ -26,15 +49,15 @@ class ItemWidget extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Hero(tag: product.image, child: SizedBox(
+            Hero(tag: widget.product.image, child: SizedBox(
               width: 150,
-              child: Image.asset(product.image),
+              child: Image.asset(widget.product.image),
             )),
             const SizedBox(
               height: 6,
             ),
             Text(
-              'Rp. ${product.price}',
+              'Rp. ${widget.product.price}',
               style: const TextStyle(
                   color: Colors.green,
                   fontSize: 20,
@@ -45,7 +68,7 @@ class ItemWidget extends StatelessWidget {
               height: 2,
             ),
             Text(
-              product.name,
+              widget.product.name,
               style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600
@@ -55,7 +78,7 @@ class ItemWidget extends StatelessWidget {
               height: 2,
             ),
             Text(
-              product.quantity,
+              widget.product.quantity,
               style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w300
@@ -97,21 +120,23 @@ class ItemWidget extends StatelessWidget {
                   width: 8,
                 ),
                 Row(
-                  children: const [
-                    Icon(
+                  children: [
+                    IconButton(onPressed: removeCount, icon: const Icon(
                       Icons.remove_circle_outline,
-                      size: 18,
                       color: Colors.green,
-                    ),
+                      size: 18,
+                    )),
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
-                      child: Text('0'),
+                      padding: const EdgeInsets.symmetric(horizontal: 1),
+                      child: Text(
+                        count.toString()
+                      ),
                     ),
-                    Icon(
+                    IconButton(onPressed: addCount, icon: const Icon(
                       Icons.add_circle_outline,
-                      size: 18,
                       color: Colors.green,
-                    )
+                      size: 18,
+                    ))
                   ],
                 )
               ],
